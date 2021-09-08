@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_padding">8dp</dimen>
-
-    <!-- TODO: Add necessary dimension values -->s
+    <dimen name="tiny_margin">2dp</dimen>
+    <dimen name="small_margin">4dp</dimen>
+    <dimen name="normal_margin">16dp</dimen>
+    <dimen name="large_margin">60dp</dimen>
+    <dimen name="button_height">48dp</dimen>
 
 </resources>

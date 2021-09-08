@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Political Preparedness</string>
+    <string name="upcoming_elections">Upcoming Elections</string>
+    <string name="saved_elections">Saved Elections</string>
+    <string name="representative_image">Representative Image</string>
+    <string name="website_description">Click to go to representative website</string>
+    <string name="facebook_image_description">Click to go to representative Facebook profile</string>
+    <string name="twitter_image_description">Click to go to representative Twitter profile</string>
+    <string name="logo_description">Launch image: Hand dropping card in ballot box</string>
+    <string name="find_my_representative">Find my representatives</string>
 
-    <!-- TODO: Add necessary string values -->
+    <string name="voting_location">Voting Location</string>
+    <string name="ballot_information">Ballot Information</string>
+    <string name="election_information">Election Information</string>
+    <string name="corresponding_address">Corresponding Address</string>
 
+    <string name="follow">Follow Election</string>
+    <string name="unfollow">Unfollow Election</string>
+    <string name="representative_search">Representative Search</string>
+    <string name="election_detail">Election Details</string>
+    <string name="elections">Elections</string>
+    <string name="use_my_location">Use My Location</string>
+    <string name="my_representatives">My Representatives</string>
+    <string name="find_my_representative_btn">Find My Representative</string>
+    <string name="follow_election">Follow Election</string>
+    <string name="address_line_2">Address Line 2</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="zip_code">Zip</string>
+    <string name="city">City</string>
+    <string name="launch_image_description">Hand dropping card in ballot box</string>
 </resources>

@@ -8,11 +8,43 @@
         android:layout_height="match_parent"
         tools:context="com.example.android.politicalpreparedness.MainActivity">
 
-        <!-- TODO: Add image for home screen logo. -->
+        <ImageView
+            android:id="@+id/logo_img"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/large_margin"
+            android:contentDescription="@string/logo_description"
+            app:layout_constraintBottom_toTopOf="@id/upcoming_elections_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ballot_logo" />
 
-        <!-- TODO: Add Button to navigate to upcoming elections. -->
+        <Button
+            android:id="@+id/upcoming_elections_btn"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@color/colorPrimary"
+            android:text="@string/upcoming_elections"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/representatives_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
-        <!-- TODO: Add Button to navigate to representatives. -->
+        <Button
+            android:id="@+id/representatives_btn"
+            style="@style/TextAppearance.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@color/colorPrimary"
+            android:text="@string/find_my_representative"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
