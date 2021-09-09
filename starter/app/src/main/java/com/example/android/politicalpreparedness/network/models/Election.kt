@@ -4,7 +4,7 @@ import androidx.room.*
 import com.squareup.moshi.*
 import java.util.*
 
-@Entity(tableName = "election_table")
+@Entity(tableName = "elections")
 data class Election(
     @PrimaryKey val id: Int,
     @ColumnInfo(name = "name") val name: String,
