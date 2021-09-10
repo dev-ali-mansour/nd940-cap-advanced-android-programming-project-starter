@@ -8,15 +8,13 @@
         <variable
             name="viewModel"
             type="com.example.android.politicalpreparedness.representative.RepresentativeViewModel" />
-
-        <variable
-            name="address"
-            type="com.example.android.politicalpreparedness.network.models.Address" />
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/default_margin"
         app:layoutDescription="@xml/fragment_representative_scene">
 
         <TextView
@@ -33,7 +31,7 @@
             android:id="@+id/address_line_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
+            android:autofillHints="@string/address_line_1"
             android:hint="@string/address_line_1"
             android:inputType="textPostalAddress"
             android:text="@={viewModel.address.line1}"
@@ -43,8 +41,8 @@
         <EditText
             android:id="@+id/address_line_2"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:autofillHints=""
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/address_line_2"
             android:hint="@string/address_line_2"
             android:inputType="textPostalAddress"
             android:text="@={viewModel.address.line2}"
@@ -63,19 +61,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/address_line_2" />
 
-        <!-- TODO: Add default values from provided resources  -->
-        <!-- TODO: Add data binding value -->
-        <!-- TODO: Add visual styling and content -->
         <Spinner
             android:id="@+id/state"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autofillHints=""
+            android:contentDescription="@string/states_spinner"
+            android:entries="@array/states"
             android:inputType="textPostalAddress"
             app:layout_constraintBottom_toBottomOf="@id/city"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/city"
-            app:layout_constraintTop_toTopOf="@id/city" />
+            app:layout_constraintTop_toTopOf="@id/city"
+            app:stateValue="@{viewModel.address.state}" />
 
         <EditText
             android:id="@+id/zip"
@@ -90,25 +88,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/city" />
 
-        <!-- TODO: Add visual styling and label -->
         <Button
             android:id="@+id/button_search"
+            style="@style/buttonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
             android:height="@dimen/button_height"
             android:background="@color/colorPrimary"
+            android:text="@string/find_my_representatives"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/zip" />
 
         <Button
             android:id="@+id/button_location"
+            style="@style/buttonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_padding"
             android:background="@color/colorPrimary"
             android:text="@string/use_my_location"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/button_search" />
 
@@ -116,20 +114,25 @@
             android:id="@+id/representative_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/default_margin"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@color/colorGray"
+            android:text="@string/my_representatives"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_location" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/representatives_recyclerView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:padding="@dimen/default_margin"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/representative_title" />
+            app:layout_constraintTop_toBottomOf="@+id/representative_title"
+            motion:itemCount="4"
+            motion:listitem="@layout/item_representative" />
 
         <TextView
             android:id="@+id/list_placeholder"

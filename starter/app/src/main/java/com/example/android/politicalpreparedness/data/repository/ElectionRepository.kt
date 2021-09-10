@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 
 class ElectionsRepository(private val database: ElectionDatabase) {
 
-    val elections: LiveData<List<Election>> = database.electionDao.getAll()
+    val upcomingElections: LiveData<List<Election>> = database.electionDao.getAll()
     val voterInfo = MutableLiveData<VoterInfoResponse>()
 
 
@@ -30,7 +30,7 @@ class ElectionsRepository(private val database: ElectionDatabase) {
     }
 
     suspend fun insertElection(election: Election) {
-        Log.i("election", election.isCached.toString())
+        Log.i("election", election.isSaved.toString())
         withContext(Dispatchers.IO) {
             database.electionDao.insert(election)
         }
@@ -45,7 +45,6 @@ class ElectionsRepository(private val database: ElectionDatabase) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     val savedElections: LiveData<List<Election>> = database.electionDao.getCached()

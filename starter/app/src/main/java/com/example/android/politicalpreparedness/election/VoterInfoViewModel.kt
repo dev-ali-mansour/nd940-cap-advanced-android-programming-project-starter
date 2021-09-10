@@ -8,42 +8,45 @@ import com.example.android.politicalpreparedness.network.models.Election
 import kotlinx.coroutines.launch
 
 class VoterInfoViewModel(application: Application) : AndroidViewModel(application) {
-    //TODO: cont'd -- Populate initial state of save button to reflect proper action based on election saved status
-
-    /**
-     * Hint: The saved state can be accomplished in multiple ways. It is directly related to how elections are saved/removed from the database.
-     */
 
     private val database = ElectionDatabase.getInstance(application)
     private val electionsRepository = ElectionsRepository(database)
-
+    var url = MutableLiveData<String>()
     val voterInfo = electionsRepository.voterInfo
 
-    var url = MutableLiveData<String>()
-
-    private val electionId = MutableLiveData<Int>()
-    val election = electionId.switchMap { id ->
+    private val _electionId = MutableLiveData<Int>()
+    val election = _electionId.switchMap { id ->
         liveData {
             emitSource(electionsRepository.getElection(id))
         }
     }
 
-    fun getElection(id: Int) {
-        electionId.value = id
+    private val _voterInfoAvailable = MutableLiveData<Boolean>()
+    val voterInfoAvailable: LiveData<Boolean>
+        get() = _voterInfoAvailable
+
+    fun getElection(electionId: Int) {
+        _electionId.value = electionId
     }
 
-    fun cacheElection(election: Election) {
+    fun saveElection(election: Election) {
+        election.isSaved = !election.isSaved
         viewModelScope.launch {
             electionsRepository.insertElection(election)
         }
     }
 
-    fun getVoterInfo(electionId: Int, address: String) =
-        viewModelScope.launch {
-            electionsRepository.getVoterInfo(electionId, address)
-        }
+    fun getVoterInfo(election: Election) {
+        if (election.division.state.isNotEmpty()) {
+            val address = "${election.division.country} - ${election.division.state}"
+            viewModelScope.launch {
+                electionsRepository.getVoterInfo(election.id, address)
+            }
+            _voterInfoAvailable.value = true
+        } else _voterInfoAvailable.value = false
+    }
 
-    fun intentUrl(url: String) {
+    fun setUrl(url: String) {
         this.url.value = url
     }
 }

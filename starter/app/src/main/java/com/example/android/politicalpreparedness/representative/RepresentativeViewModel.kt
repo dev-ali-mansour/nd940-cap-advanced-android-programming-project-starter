@@ -1,7 +1,7 @@
 package com.example.android.politicalpreparedness.representative
 
-import androidx.databinding.BaseObservable
 import androidx.databinding.Observable
+import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,15 +12,10 @@ import com.example.android.politicalpreparedness.representative.model.Representa
 import kotlinx.coroutines.launch
 
 class RepresentativeViewModel : ViewModel(), Observable {
-
-    val line1 = MutableLiveData<String>()
-    val line2 = MutableLiveData<String>()
-    val city = MutableLiveData<String>()
-    val state = MutableLiveData<String>()
-    val zip = MutableLiveData<String>()
+    private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
 
     private val _representatives = MutableLiveData<List<Representative>>()
-    val representative: LiveData<List<Representative>>
+    val representatives: LiveData<List<Representative>>
         get() = _representatives
 
     private val _address = MutableLiveData<Address>()
@@ -28,7 +23,7 @@ class RepresentativeViewModel : ViewModel(), Observable {
         get() = _address
 
     init {
-        _address.value = Address(/*"", "", "", "", ""*/)
+        _address.value = Address("", "", "", "", "")
     }
 
     fun getRepresentatives() {
@@ -61,14 +56,32 @@ class RepresentativeViewModel : ViewModel(), Observable {
     }
 
     fun setAddress(line1: String, line2: String?, city: String, state: String, zip: String) {
-        _address.value = Address(/*line1, line2, city, state, zip*/)
+        _address.value = Address(line1, line2, city, state, zip)
     }
 
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-        TODO("Not yet implemented")
+        callbacks.add(callback)
     }
 
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-        TODO("Not yet implemented")
+        callbacks.remove(callback)
+    }
+
+    /**
+     * Notifies observers that all properties of this instance have changed.
+     */
+    fun notifyChange() {
+        callbacks.notifyCallbacks(this, 0, null)
+    }
+
+    /**
+     * Notifies observers that a specific property has changed. The getter for the
+     * property that changes should be marked with the @Bindable annotation to
+     * generate a field in the BR class to be used as the fieldId parameter.
+     *
+     * @param fieldId The generated BR id for the Bindable field.
+     */
+    fun notifyPropertyChanged(fieldId: Int) {
+        callbacks.notifyCallbacks(this, fieldId, null)
     }
 }

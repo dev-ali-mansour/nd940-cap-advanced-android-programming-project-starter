@@ -17,7 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/normal_margin"
+        android:layout_marginVertical="@dimen/small_margin"
+        android:layout_marginHorizontal="@dimen/normal_margin"
         android:onClick="@{()-> clickListener.onClick(election)}">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -26,6 +27,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@{election.name}"
             android:text="@{election.name}"
+            android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

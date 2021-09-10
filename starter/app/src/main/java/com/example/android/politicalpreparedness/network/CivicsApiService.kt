@@ -1,5 +1,6 @@
 package com.example.android.politicalpreparedness.network
 
+import com.example.android.politicalpreparedness.network.jsonadapter.ElectionAdapter
 import com.example.android.politicalpreparedness.network.models.ElectionResponse
 import com.example.android.politicalpreparedness.network.models.RepresentativeResponse
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
@@ -17,6 +18,7 @@ import java.util.*
 private const val BASE_URL = "https://www.googleapis.com/civicinfo/v2/"
 
 private val moshi = Moshi.Builder()
+    .add(ElectionAdapter())
     .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
     .add(KotlinJsonAdapterFactory())
     .build()

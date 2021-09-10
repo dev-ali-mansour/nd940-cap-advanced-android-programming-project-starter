@@ -1,13 +1,30 @@
 package com.example.android.politicalpreparedness.election
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import com.example.android.politicalpreparedness.databinding.FragmentLaunchBinding
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
+import com.google.android.material.snackbar.Snackbar
 
 class VoterInfoFragment : Fragment() {
     private lateinit var binding: FragmentVoterInfoBinding
+    private val args: VoterInfoFragmentArgs by navArgs()
+    private val voterInfoViewModel: VoterInfoViewModel by lazy {
+        val viewModelFactory = VoterInfoViewModelFactory(requireActivity().application)
+        ViewModelProvider(this, viewModelFactory).get(VoterInfoViewModel::class.java)
+    }
+    private lateinit var snackBar: Snackbar
+
+    companion object {
+        private val TAG = VoterInfoFragment::class.java.simpleName
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,24 +34,51 @@ class VoterInfoFragment : Fragment() {
 
         binding = FragmentVoterInfoBinding.inflate(inflater)
 
-        //TODO: Add ViewModel values and create ViewModel
+        binding.lifecycleOwner = this
+        binding.viewModel = voterInfoViewModel
+        val election = args.argElection
 
-        //TODO: Add binding values
-
-        //TODO: Populate voter info -- hide views without provided data.
         /**
         Hint: You will need to ensure proper data is provided from previous fragment.
          */
 
+        voterInfoViewModel.voterInfoAvailable.observe(viewLifecycleOwner, { isAvailable ->
+            if (!isAvailable) {
+                Log.e(TAG, getString(R.string.elections_details_error))
+                snackBar.show()
+            }
+        })
 
-        //TODO: Handle loading of URLs
+        voterInfoViewModel.url.observe(viewLifecycleOwner, { url ->
+            url?.let { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it))) }
+        })
 
-        //TODO: Handle save button UI state
-        //TODO: cont'd Handle save button clicks
+        voterInfoViewModel.apply {
+            getElection(election.id)
+            getVoterInfo(election)
+        }
+
+        /**
+         * Handle views visibility, save button UI state and clicks was made in layout file
+         * using Data Binding with the ViewModel
+         */
 
         return binding.root
     }
 
-    //TODO: Create method to load URL intents
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        snackBar = Snackbar.make(
+            binding.mainLayout,
+            getString(R.string.elections_details_error),
+            Snackbar.LENGTH_INDEFINITE
+        ).setAction(android.R.string.ok) {
+            findNavController().popBackStack()
+        }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        snackBar.dismiss()
+    }
 }

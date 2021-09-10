@@ -16,7 +16,7 @@ interface ElectionDao {
     @Query("SELECT * FROM elections")
     fun getAll(): LiveData<List<Election>>
 
-    @Query("SELECT * FROM elections where isCached = 1")
+    @Query("SELECT * FROM elections where isSaved = 1")
     fun getCached(): LiveData<List<Election>>
 
     @Query("SELECT * FROM elections WHERE id=:id")

@@ -15,29 +15,31 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.android.politicalpreparedness.MainActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/election_name_txt"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorToolbar"
-            android:padding="@dimen/default_padding"
+            android:background="@color/colorPrimaryDark"
+            android:padding="@dimen/default_margin"
             android:singleLine="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="@{viewModel.voterInfoAvailable? View.VISIBLE:View.GONE}"
             app:layout_constraintTop_toTopOf="parent"
-            app:titleTextColor="@color/colorPrimaryDark" />
+            app:title="@{viewModel.voterInfo.election.name}"
+            app:titleTextColor="@color/white" />
 
         <TextView
             android:id="@+id/election_date_txt"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_padding"
+            android:layout_margin="@dimen/default_margin"
             android:text="@{viewModel.election.electionDay.toString()}"
+            android:visibility="@{viewModel.voterInfoAvailable? View.VISIBLE:View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/election_name_txt"
             tools:text="12 November 2055" />
 
@@ -47,6 +49,7 @@
             android:layout_height="wrap_content"
             android:text="@string/election_information"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:visibility="@{viewModel.voterInfoAvailable? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="@id/election_date_txt"
             app:layout_constraintTop_toBottomOf="@id/election_date_txt" />
 
@@ -55,9 +58,9 @@
             style="@style/infoLinksStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->viewModel.intentUrl(viewModel.voterInfo.state[0].electionAdministrationBody.votingLocationFinderUrl)}"
+            android:onClick="@{()->viewModel.setUrl(viewModel.voterInfo.state[0].electionAdministrationBody.votingLocationFinderUrl)}"
             android:text="@string/voting_location"
-            android:visibility='@{TextUtils.isEmpty(viewModel.voterInfo.state[0].electionAdministrationBody.votingLocationFinderUrl) ? View.GONE : View.VISIBLE}'
+            android:visibility="@{viewModel.voterInfoAvailable? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="@id/election_date_txt"
             app:layout_constraintTop_toBottomOf="@id/state_header_txt" />
 
@@ -66,9 +69,9 @@
             style="@style/infoLinksStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->viewModel.intentUrl(viewModel.voterInfo.state[0].electionAdministrationBody.electionInfoUrl)}"
+            android:onClick="@{()->viewModel.setUrl(viewModel.voterInfo.state[0].electionAdministrationBody.electionInfoUrl)}"
             android:text="@string/ballot_information"
-            android:visibility='@{TextUtils.isEmpty(viewModel.voterInfo.state[0].electionAdministrationBody.electionInfoUrl) ? View.GONE : View.VISIBLE}'
+            android:visibility="@{viewModel.voterInfoAvailable? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="@id/election_date_txt"
             app:layout_constraintTop_toBottomOf="@id/locations_txt" />
 
@@ -84,7 +87,7 @@
             android:layout_height="wrap_content"
             android:text="@string/corresponding_address"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:visibility="@{TextUtils.isEmpty(viewModel.voterInfo.state.get(0).electionAdministrationBody.correspondenceAddress.toFormattedString()) ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.voterInfoAvailable? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="@id/election_date_txt"
             app:layout_constraintTop_toBottomOf="@id/state_ballot_txt" />
 
@@ -92,10 +95,12 @@
             android:id="@+id/address_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
             android:text="@{viewModel.voterInfo.state.get(0).electionAdministrationBody.correspondenceAddress.toFormattedString()}"
-            android:visibility="@{TextUtils.isEmpty(viewModel.voterInfo.state.get(0).electionAdministrationBody.correspondenceAddress.toFormattedString()) ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.voterInfoAvailable? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="@id/election_date_txt"
-            app:layout_constraintTop_toBottomOf="@id/correspondence_header_txt" />
+            app:layout_constraintTop_toBottomOf="@id/correspondence_header_txt"
+            tools:text="Correspondence address" />
 
         <Button
             android:id="@+id/follow_election_btn"
@@ -105,9 +110,10 @@
             android:layout_marginHorizontal="@dimen/normal_margin"
             android:layout_marginBottom="@dimen/normal_margin"
             android:background="@color/colorPrimary"
-            android:onClick="@{() -> viewModel.cacheElection(viewModel.election)}"
-            android:text="@{(!viewModel.election.isCached) ? @string/follow : @string/unfollow}"
+            android:onClick="@{() -> viewModel.saveElection(viewModel.election)}"
+            android:text="@{(!viewModel.election.saved) ? @string/follow : @string/unfollow}"
             android:textColor="@color/white"
+            android:visibility="@{viewModel.voterInfoAvailable? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

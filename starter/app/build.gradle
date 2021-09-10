@@ -58,10 +58,16 @@ dependencies {
     // Core with Ktx
     implementation "androidx.core:core-ktx:$version_core"
 
+    // Fragment
+    implementation "androidx.fragment:fragment-ktx:$version_fragment"
+
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit: $version_retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
+
+    // OKHTTP Logging
+    implementation "com.squareup.okhttp3:logging-interceptor:4.5.0"
 
     // Moshi
     implementation "com.squareup.moshi:moshi:$version_moshi"

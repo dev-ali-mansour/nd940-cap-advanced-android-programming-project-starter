@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp">
+        android:layout_height="75dp">
 
         <ImageView
             android:id="@+id/representative_image"
@@ -30,18 +30,20 @@
             android:id="@+id/office_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="@dimen/small_margin"
             android:contentDescription="@{representative.office.name}"
             android:text="@{representative.office.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/representative_image"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Office Name" />
 
         <TextView
             android:id="@+id/name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="@dimen/small_margin"
             android:contentDescription="@{representative.official.name}"
             android:text="@{representative.official.name}"
             app:layout_constraintStart_toEndOf="@id/representative_image"
@@ -52,7 +54,7 @@
             android:id="@+id/party_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="@dimen/small_margin"
             android:contentDescription="@{representative.official.party}"
             android:text="@{representative.official.party}"
             app:layout_constraintStart_toEndOf="@id/representative_image"
@@ -64,9 +66,9 @@
             android:id="@+id/www_img"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="@dimen/default_margin"
             android:contentDescription="@string/website_description"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/representative_image"
             app:layout_constraintEnd_toStartOf="@id/facebook_img"
             app:srcCompat="@drawable/ic_www" />
 
@@ -74,9 +76,9 @@
             android:id="@+id/facebook_img"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="@dimen/default_margin"
             android:contentDescription="@string/facebook_image_description"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/representative_image"
             app:layout_constraintEnd_toStartOf="@id/twitter_img"
             app:srcCompat="@drawable/ic_facebook" />
 
@@ -84,11 +86,12 @@
             android:id="@+id/twitter_img"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_margin="8dp"
+            android:layout_marginHorizontal="@dimen/default_margin"
             android:contentDescription="@string/twitter_image_description"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/representative_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_twitter" />
+            app:srcCompat="@drawable/ic_twitter"
+            tools:ignore="ImageContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

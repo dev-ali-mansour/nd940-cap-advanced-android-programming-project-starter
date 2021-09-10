@@ -4,9 +4,9 @@
     <string name="upcoming_elections">Upcoming Elections</string>
     <string name="saved_elections">Saved Elections</string>
     <string name="representative_image">Representative Image</string>
-    <string name="website_description">Click to go to representative website</string>
-    <string name="facebook_image_description">Click to go to representative Facebook profile</string>
-    <string name="twitter_image_description">Click to go to representative Twitter profile</string>
+    <string name="website_description">Go to representative website</string>
+    <string name="facebook_image_description">Go to representative Facebook profile</string>
+    <string name="twitter_image_description">Go to representative Twitter profile</string>
     <string name="logo_description">Launch image: Hand dropping card in ballot box</string>
     <string name="find_my_representative">Find my representatives</string>
 
@@ -29,4 +29,9 @@
     <string name="zip_code">Zip</string>
     <string name="city">City</string>
     <string name="launch_image_description">Hand dropping card in ballot box</string>
+    <string name="states_spinner">States Spinner</string>
+    <string name="find_my_representatives">Find my representatives</string>
+    <string name="location_permission_not_granted">Location permission has not been granted.</string>
+    <string name="elections_details_error">Oops! There is no details for this election. You can choose a different one</string>
+    <string name="location_required_error">Location services must be enabled to use the app</string>
 </resources>

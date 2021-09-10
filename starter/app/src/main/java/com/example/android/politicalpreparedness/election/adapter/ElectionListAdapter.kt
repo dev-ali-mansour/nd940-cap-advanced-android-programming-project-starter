@@ -10,38 +10,43 @@ import com.example.android.politicalpreparedness.network.models.Election
 
 class ElectionListAdapter(private val clickListener: ElectionListener) :
     ListAdapter<Election, ElectionViewHolder>(ElectionDiffCallback()) {
-    var elections: List<Election> = emptyList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
-    override fun getItemCount(): Int = elections.size
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElectionViewHolder {
-        val binding =
-            ItemElectionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ElectionViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElectionViewHolder =
+        ElectionViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: ElectionViewHolder, position: Int) {
-        holder.viewDataBinding.also {
-            it.election = elections[position]
-            it.clickListener = clickListener
+        val item = getItem(position)
+        holder.bind(clickListener, item)
+    }
+}
+
+class ElectionViewHolder(val binding: ItemElectionBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(clickListener: ElectionListener, item: Election) {
+        binding.election = item
+        binding.electionNameTxt.text = item.name
+        binding.electionDateTxt.text = item.electionDay.toString()
+        binding.clickListener = clickListener
+
+        binding.executePendingBindings()
+    }
+
+    companion object {
+        fun from(parent: ViewGroup): ElectionViewHolder {
+            val layoutInflater = LayoutInflater.from(parent.context)
+            val binding = ItemElectionBinding.inflate(layoutInflater, parent, false)
+            return ElectionViewHolder(binding)
         }
     }
 }
 
-class ElectionViewHolder(val viewDataBinding: ItemElectionBinding) :
-    RecyclerView.ViewHolder(viewDataBinding.root)
-
 class ElectionDiffCallback : DiffUtil.ItemCallback<Election>() {
 
     override fun areItemsTheSame(oldItem: Election, newItem: Election): Boolean =
-        oldItem.id == newItem.id
+        oldItem == newItem
 
     override fun areContentsTheSame(oldItem: Election, newItem: Election): Boolean =
-        oldItem == newItem
+        oldItem.electionDay == newItem.electionDay && oldItem.name == newItem.name
 }
 
 class ElectionListener(val block: (Election) -> Unit) {
