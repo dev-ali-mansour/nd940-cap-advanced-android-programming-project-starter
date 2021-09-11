@@ -3,8 +3,9 @@ package com.example.android.politicalpreparedness.election
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentVoterInfoBinding
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 
 class VoterInfoFragment : Fragment() {
     private lateinit var binding: FragmentVoterInfoBinding
@@ -21,10 +23,6 @@ class VoterInfoFragment : Fragment() {
         ViewModelProvider(this, viewModelFactory).get(VoterInfoViewModel::class.java)
     }
     private lateinit var snackBar: Snackbar
-
-    companion object {
-        private val TAG = VoterInfoFragment::class.java.simpleName
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +42,7 @@ class VoterInfoFragment : Fragment() {
 
         voterInfoViewModel.voterInfoAvailable.observe(viewLifecycleOwner, { isAvailable ->
             if (!isAvailable) {
-                Log.e(TAG, getString(R.string.elections_details_error))
+                Timber.e(getString(R.string.elections_details_error))
                 snackBar.show()
             }
         })

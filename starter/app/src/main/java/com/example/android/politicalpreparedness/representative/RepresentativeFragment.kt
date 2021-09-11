@@ -9,14 +9,14 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.AdapterView
 import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -26,16 +26,18 @@ import com.example.android.politicalpreparedness.databinding.FragmentRepresentat
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 import java.util.*
+import com.google.android.gms.location.LocationRequest
+
 
 class RepresentativeFragment : Fragment() {
     private lateinit var binding: FragmentRepresentativeBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
 
     private val viewModel: RepresentativeViewModel by lazy {
         ViewModelProvider(this).get(RepresentativeViewModel::class.java)
@@ -49,11 +51,6 @@ class RepresentativeFragment : Fragment() {
         }
     }
 
-    companion object {
-        private val TAG = RepresentativeFragment::class.java.simpleName
-        private const val LOCATION_REQUEST_CODE = 1
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,7 +59,22 @@ class RepresentativeFragment : Fragment() {
 
         binding = FragmentRepresentativeBinding.inflate(inflater)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
+        locationRequest = LocationRequest.create()
+        locationRequest.apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 10000
+        }
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                for (location in locationResult.locations) {
+                    location?.let {
+                        val userAddress = geoCodeLocation(location)
+                        userAddress?.let { viewModel.setAddress(it) }
+                    }
+                }
+            }
+        }
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
@@ -133,19 +145,29 @@ class RepresentativeFragment : Fragment() {
         } else requestLocationPermission()
     }
 
-    private fun geoCodeLocation(location: Location): Address {
-        val geocoder = Geocoder(context, Locale.getDefault())
-        return geocoder.getFromLocation(location.latitude, location.longitude, 1)
-            .map { address ->
-                Address(
-                    address.thoroughfare,
-                    address.subThoroughfare,
-                    address.locality,
-                    address.adminArea,
-                    address.postalCode
-                )
-            }
-            .first()
+    private fun geoCodeLocation(location: Location): Address? {
+        runCatching {
+            val geocoder = Geocoder(context, Locale.getDefault())
+            return geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                .map { address ->
+                    Address(
+                        address.thoroughfare,
+                        address.subThoroughfare,
+                        address.locality,
+                        address.adminArea,
+                        address.postalCode
+                    )
+                }
+                .first()
+        }.onFailure { t ->
+            Timber.e("Failed to get address! $t")
+            Snackbar.make(
+                binding.mainLayout,
+                "Sorry! We can't detect your current address",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+        return null
     }
 
     @SuppressLint("MissingPermission")
@@ -170,7 +192,7 @@ class RepresentativeFragment : Fragment() {
                         IntentSenderRequest.Builder(exception.resolution).build()
                     resultLauncher.launch(intentSenderRequest)
                 } catch (sendEx: IntentSender.SendIntentException) {
-                    Log.d(TAG, "Error getting location settings resolution: " + sendEx.message)
+                    Timber.d("Error getting location settings resolution: ${sendEx.message}")
                 }
             } else {
                 Snackbar.make(
@@ -184,17 +206,20 @@ class RepresentativeFragment : Fragment() {
         }
         locationSettingsResponseTask.addOnCompleteListener {
             if (it.isSuccessful) {
-                Log.d(TAG, "Device location enabled")
-                fusedLocationClient.lastLocation
-                    .addOnSuccessListener { location ->
-                        location?.let {
-                            val userAddress = geoCodeLocation(location)
-                            viewModel.setAddress(userAddress)
-                        }
-                    }
+                Timber.d("Device location enabled")
+                startLocationUpdates()
             }
         }
 
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun startLocationUpdates() {
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
     }
 
     private fun hideKeyboard() {
@@ -221,4 +246,9 @@ class RepresentativeFragment : Fragment() {
 
     private fun requestLocationPermission() =
         requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE)
+
+    companion object {
+        private const val LOCATION_REQUEST_CODE = 1
+    }
+
 }

@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/representative_image"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="@dimen/img_width"
+            android:layout_height="@dimen/img_width"
             android:contentDescription="@string/representative_image"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -64,8 +64,8 @@
 
         <ImageView
             android:id="@+id/www_img"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/ico_width"
+            android:layout_height="@dimen/ico_width"
             android:layout_marginHorizontal="@dimen/default_margin"
             android:contentDescription="@string/website_description"
             app:layout_constraintBottom_toBottomOf="@id/representative_image"
@@ -74,8 +74,8 @@
 
         <ImageView
             android:id="@+id/facebook_img"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/ico_width"
+            android:layout_height="@dimen/ico_width"
             android:layout_marginHorizontal="@dimen/default_margin"
             android:contentDescription="@string/facebook_image_description"
             app:layout_constraintBottom_toBottomOf="@id/representative_image"
@@ -84,8 +84,8 @@
 
         <ImageView
             android:id="@+id/twitter_img"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/ico_width"
+            android:layout_height="@dimen/ico_width"
             android:layout_marginHorizontal="@dimen/default_margin"
             android:contentDescription="@string/twitter_image_description"
             app:layout_constraintBottom_toBottomOf="@id/representative_image"

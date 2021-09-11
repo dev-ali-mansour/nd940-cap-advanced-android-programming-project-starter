@@ -6,5 +6,7 @@
     <dimen name="normal_margin">16dp</dimen>
     <dimen name="large_margin">60dp</dimen>
     <dimen name="button_height">48dp</dimen>
+    <dimen name="ico_width">24dp</dimen>
+    <dimen name="img_width">56dp</dimen>
 
 </resources>
