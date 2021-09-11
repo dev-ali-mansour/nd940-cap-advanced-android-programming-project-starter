@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -159,14 +160,7 @@ class RepresentativeFragment : Fragment() {
                     )
                 }
                 .first()
-        }.onFailure { t ->
-            Timber.e("Failed to get address! $t")
-            Snackbar.make(
-                binding.mainLayout,
-                "Sorry! We can't detect your current address",
-                Snackbar.LENGTH_LONG
-            ).show()
-        }
+        }.onFailure { t -> Timber.e("Failed to get address! $t") }
         return null
     }
 
