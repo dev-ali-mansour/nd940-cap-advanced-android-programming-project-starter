@@ -105,7 +105,7 @@
         <Button
             android:id="@+id/follow_election_btn"
             style="@style/TextAppearance.MaterialComponents.Button"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dimen"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/normal_margin"
             android:layout_marginBottom="@dimen/normal_margin"

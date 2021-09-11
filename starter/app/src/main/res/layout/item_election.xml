@@ -23,7 +23,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/election_name_txt"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dimen"
             android:layout_height="wrap_content"
             android:contentDescription="@{election.name}"
             android:text="@{election.name}"
@@ -36,7 +36,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/election_date_txt"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dimen"
             android:layout_height="wrap_content"
             android:contentDescription="@{election.electionDay.toString()"
             android:text="@{election.electionDay.toString()}"

@@ -51,7 +51,7 @@
 
         <EditText
             android:id="@+id/city"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dimen"
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:hint="@string/city"
@@ -63,8 +63,8 @@
 
         <Spinner
             android:id="@+id/state"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/zero_dimen"
+            android:layout_height="@dimen/zero_dimen"
             android:autofillHints=""
             android:contentDescription="@string/states_spinner"
             android:entries="@array/states"
@@ -77,7 +77,7 @@
 
         <EditText
             android:id="@+id/zip"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dimen"
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:hint="@string/zip_code"
@@ -124,7 +124,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/representatives_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dimen"
             android:padding="@dimen/default_margin"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -137,7 +137,7 @@
         <TextView
             android:id="@+id/list_placeholder"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dimen"
             android:gravity="center"
             android:textAlignment="center"
             android:visibility="gone"

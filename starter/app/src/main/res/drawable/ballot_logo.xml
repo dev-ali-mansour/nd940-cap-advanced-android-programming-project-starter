@@ -1,8 +1,8 @@
 <vector
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:name="vector"
-    android:width="307dp"
-    android:height="312dp"
+    android:width="@dimen/ballot_width"
+    android:height="@dimen/ballot_height"
     android:viewportWidth="307"
     android:viewportHeight="312">
     <group android:name="group">

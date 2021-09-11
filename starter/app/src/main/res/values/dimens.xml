@@ -4,9 +4,16 @@
     <dimen name="tiny_margin">2dp</dimen>
     <dimen name="small_margin">4dp</dimen>
     <dimen name="normal_margin">16dp</dimen>
-    <dimen name="large_margin">60dp</dimen>
+    <dimen name="large_margin">64dp</dimen>
     <dimen name="button_height">48dp</dimen>
     <dimen name="ico_width">24dp</dimen>
     <dimen name="img_width">56dp</dimen>
+    <dimen name="item_rep_height">75dp</dimen>
+    <dimen name="zero_dimen">0dp</dimen>
+    <dimen name="ico_big_dimen">512dp</dimen>
+    <dimen name="ballot_width">307dp</dimen>
+    <dimen name="ballot_height">312dp</dimen>
+    <dimen name="background_dimen">108dp</dimen>
+    <dimen name="loading_dimen">24dp</dimen>
 
 </resources>

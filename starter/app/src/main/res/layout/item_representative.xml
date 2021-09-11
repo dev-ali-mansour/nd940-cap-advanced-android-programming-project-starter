@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp">
+        android:layout_height="@dimen/item_rep_height">
 
         <ImageView
             android:id="@+id/representative_image"

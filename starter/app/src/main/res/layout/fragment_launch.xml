@@ -10,7 +10,7 @@
 
         <ImageView
             android:id="@+id/logo_img"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dimen"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/large_margin"
             android:contentDescription="@string/logo_description"
